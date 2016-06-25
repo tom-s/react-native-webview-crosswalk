@@ -22,7 +22,7 @@ public class CrosswalkWebViewGroupManager extends ViewGroupManager<CrosswalkWebV
 
     public static final int RELOAD = 3;
 
-    public static final int SEND_TO_BRIDGE = 3;
+    public static final int SEND_TO_BRIDGE = 4;
 
     @VisibleForTesting
     public static final String REACT_CLASS = "CrosswalkWebView";

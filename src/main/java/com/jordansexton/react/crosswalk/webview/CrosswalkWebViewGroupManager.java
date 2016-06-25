@@ -110,7 +110,7 @@ public class CrosswalkWebViewGroupManager extends ViewGroupManager<CrosswalkWebV
             "goBack", GO_BACK,
             "goForward", GO_FORWARD,
             "reload", RELOAD,
-            "sendToBrigde", SEND_TO_BRIDGE
+            "sendToBridge", SEND_TO_BRIDGE
         );
     }
 

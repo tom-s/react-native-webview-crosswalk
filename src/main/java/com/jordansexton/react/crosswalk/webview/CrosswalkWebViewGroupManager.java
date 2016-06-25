@@ -22,6 +22,8 @@ public class CrosswalkWebViewGroupManager extends ViewGroupManager<CrosswalkWebV
 
     public static final int RELOAD = 3;
 
+    public static final int SEND_TO_BRIDGE = 3;
+
     @VisibleForTesting
     public static final String REACT_CLASS = "CrosswalkWebView";
 
@@ -107,7 +109,8 @@ public class CrosswalkWebViewGroupManager extends ViewGroupManager<CrosswalkWebV
         return MapBuilder.of(
             "goBack", GO_BACK,
             "goForward", GO_FORWARD,
-            "reload", RELOAD
+            "reload", RELOAD,
+            "sendToBrigde", SEND_TO_BRIDGE
         );
     }
 
@@ -123,6 +126,9 @@ public class CrosswalkWebViewGroupManager extends ViewGroupManager<CrosswalkWebV
             case RELOAD:
                 view.reload(XWalkView.RELOAD_NORMAL);
                 break;
+           case SEND_TO_BRIDGE:
+                sendToBridge(view, args.getString(0));
+                break;
         }
     }
 
@@ -132,5 +138,10 @@ public class CrosswalkWebViewGroupManager extends ViewGroupManager<CrosswalkWebV
             NavigationStateChangeEvent.EVENT_NAME,
             MapBuilder.of("registrationName", "onNavigationStateChange")
         );
+    }
+
+    private void sendToBridge(CrosswalkWebView view, String message) {
+        String script = "window.CrosswalkWebViewBridge.onMessage('" + message + "');";
+        view.evaluateJavascript(script, null);
     }
 }

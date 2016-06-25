@@ -34,6 +34,10 @@ class CrosswalkWebView extends XWalkView implements LifecycleEventListener {
         resourceClient = new ResourceClient(this);
 
         this.setResourceClient(resourceClient);
+
+        // For Bridge
+        this.addJavascriptInterface(new JavascriptBridge(reactContext), "CrosswalkWebViewBridgeAndroid");
+        this.evaluateJavascript("window.CrosswalkWebViewBridge = { send: function(message) { CrosswalkWebViewBridgeAndroid.send(message); }, onMessage: function() {} }; CrosswalkWebViewBridge = window.CrosswalkWebViewBridge; WebViewBridge = CrosswalkWebViewBridge; window.WebViewBridge = WebViewBridge;", null);
     }
 
     public Boolean getLocalhost () {

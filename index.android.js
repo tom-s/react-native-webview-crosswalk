@@ -8,7 +8,7 @@ var {
     NativeModules: { UIManager, CrosswalkWebViewManager: { JSNavigationScheme } }
 } = ReactNative;
 
-var resolveAssetSource = require('resolveAssetSource')
+var resolveAssetSource = require('react-native/Libraries/Image/resolveAssetSource')
 
 var WEBVIEW_REF = 'crosswalkWebView';
 
@@ -18,6 +18,7 @@ var CrosswalkWebView = React.createClass({
     propTypes: {
         localhost:               PropTypes.bool.isRequired,
         onNavigationStateChange: PropTypes.func,
+        onError:                 PropTypes.func,
         url:                     PropTypes.string,
         injectedJavaScript:      PropTypes.string,
         onBridgeMessage:         PropTypes.func,
@@ -56,7 +57,8 @@ var CrosswalkWebView = React.createClass({
             { ...this.props }
             ref={ WEBVIEW_REF }
             source={resolveAssetSource(source)}
-            onNavigationStateChange={ this.onNavigationStateChange } />
+            onNavigationStateChange={ this.onNavigationStateChange }
+            onError={ this.onError } />
       );
     },
     getWebViewHandle () {
@@ -66,6 +68,12 @@ var CrosswalkWebView = React.createClass({
         var { onNavigationStateChange } = this.props;
         if (onNavigationStateChange) {
             onNavigationStateChange(event.nativeEvent);
+        }
+    },
+    onError (event) {
+        var { onError } = this.props;
+        if (onError) {
+            onError(event.nativeEvent);
         }
     },
     goBack () {
